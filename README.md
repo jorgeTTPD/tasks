@@ -8,12 +8,21 @@ resolución de tareas locales con persistencia automática.
 
 ## Instalación / uso
 
-```sh
-pip install -r requirements.txt
-./run.sh
+### Desde el repo (recomendado)
+
+```bash
+git clone https://github.com/jorgeTTPD/tasks
+cd tasks
+uv tool install -e .        # o: pip install -e .
+tasks
 ```
 
-También se puede lanzar directo: `python3 apuntador.py`.
+### Sin instalar (modo desarrollo)
+
+```sh
+pip install -r requirements.txt
+./run.sh                    # o: python3 apuntador.py
+```
 
 ## Atajos
 

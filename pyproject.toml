@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tasks-tui"
+version = "0.1.0"
+description = "Gestor TUI ultraligero de pendientes con persistencia local (Python + Textual)"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [{name = "Jorge", email = "jorgeescalera500@gmail.com"}]
+requires-python = ">=3.10"
+classifiers = [
+    "Environment :: Console",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Terminals",
+]
+dependencies = [
+    "textual>=0.80",
+]
+
+[project.scripts]
+tasks = "apuntador:main"
+
+[tool.setuptools]
+py-modules = ["apuntador"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
