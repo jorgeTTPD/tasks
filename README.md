@@ -4,6 +4,8 @@ Gestor de pendientes **ultraligero** para terminal (TUI), hecho en Python con
 [Textual](https://github.com/Textualize/textual). Registro, seguimiento y
 resolución de tareas locales con persistencia automática.
 
+![tasks](screenshot.png)
+
 ## Instalación / uso
 
 ```sh
