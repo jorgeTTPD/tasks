@@ -1,27 +1,2 @@
-APUNTADOR-TAREAS - Gestor TUI ultraligero de pendientes
-======================================================
+APUNTADOR-TAREAS
 
-DESCRIPCIÓN
------------
-Aplicación de terminal (TUI) ultraligera orientada al registro, seguimiento
-y resolución de tareas pendientes locales, con persistencia automática y
-marcado de fechas.
-
-TECNOLOGÍA: Python 3 (Textual)
-PRIORIDAD: 14 (Resto de proyectos en Python)
-
-FUNCIONALIDADES
----------------
-[x] Lista dinámica de tareas y pendientes
-[x] Marcar tareas como completadas [x] o pendientes [ ]
-[x] Fecha y hora de creación registradas automáticamente
-[x] Eliminación de tareas resueltas o desestimadas
-[x] Persistencia local automática en directorio propio (~/.apuntador_tareas/)
-[x] Atajos de teclado para operaciones rápidas sin ratón
-[x] Inicio instantáneo y consumo mínimo de recursos
-
-PLANIFICADO / POR AÑADIR
---------------------------
-[x] Atajo para limpiar masivamente tareas completadas
-[x] Registro de fecha de finalización al marcar una tarea
-[x] Filtro para ocultar/mostrar tareas resueltas
