@@ -1,23 +1,4 @@
-#!/usr/bin/env python3
-# ═══════════════════════════════════════════════════════════════════
-#  Apuntador de Tareas — TUI (Python 3 + Textual)
-#
-#  Atajos:
-#    a            añadir tarea (nombre + descripción)
-#    v            ver detalle de la tarea seleccionada
-#    d            borrar tarea seleccionada
-#    x / Espacio  marcar como completada / pendiente
-#    c            limpiar todas las completadas
-#    f            cambiar filtro (todas / pendientes / hechas)
-#    ↑ ↓ / j k    mover selección
-#    q / Esc      salir
-#
-#  Los datos se guardan automáticamente en ~/.apuntador_tareas/tareas.json
-#  (se puede cambiar el directorio con la variable de entorno APUNTADOR_DIR)
-#
-#  Requisitos:  python3 -m pip install textual
-#  Ejecutar:    ./run.sh   o   python3 apuntador.py
-# ═══════════════════════════════════════════════════════════════════
+
 
 from __future__ import annotations
 
@@ -92,39 +73,9 @@ class ApuntadorApp(App):
     """TUI del Apuntador de Tareas."""
 
     TITLE = "Apuntador de Tareas"
-    # Transparencia: requiere un terminal con fondo transparente
-    # (p. ej. urxvt con depth 32 + alpha + picom). Si no, se ve el
-    # fondo por defecto del terminal.
-    #
-    # background: ansi_default = fondo por defecto del terminal.
-    # Con ansi_color=True (constructor) Textual no lo sobreescribe.
-    # Trade-off: ansi_color desactiva el alpha-blending de Textual
-    # (aceptable: esta app usa colores planos).
-    CSS = """
-    App, Screen, Header {
-        background: ansi_default;
-    }
-
-    #summary {
-        color: $accent;
-        text-style: bold;
-        padding: 0 1;
-        border-bottom: solid $primary;
-    }
-    #cols {
-        color: $text-muted;
-        text-style: bold;
-        padding: 0 1;
-    }
-    #list {
-        padding: 0 1;
-        height: 1fr;
-    }
-    #footer {
-        padding: 0 1;
-        border-top: solid $primary;
-    }
-    """
+   
+   
+    
 
     def __init__(self, tareas: list[Tarea] | None = None) -> None:
         # ansi_color=True: Textual deja de forzar fondos true-color por
@@ -142,7 +93,7 @@ class ApuntadorApp(App):
         self.flash: str = ""
         self._flash_timer = None
 
-    # ── Lógica ─────────────────────────────────────────────────────
+    # ── motor ─────────────────────────────────────────────────────
 
     def idx_visible(self) -> list[int]:
         return [
@@ -223,7 +174,7 @@ class ApuntadorApp(App):
         self.set_flash(f"Filtro: {self.filtro}")
         self._refrescar()
 
-    # ── UI ─────────────────────────────────────────────────────────
+    # ── ui ─────────────────────────────────────────────────────────
 
     def compose(self) -> ComposeResult:
         yield Header(show_clock=False)
@@ -239,7 +190,7 @@ class ApuntadorApp(App):
         self._refrescar()
 
     def on_key(self, event) -> None:
-        # Modo añadir: formulario de nombre + descripción
+        # 
         if self.modo == "anadir":
             event.stop()
             if event.character is not None and event.is_printable:
@@ -268,7 +219,7 @@ class ApuntadorApp(App):
                 self._refrescar()
             return
 
-        # Modo detalle (ver tarea): cualquier tecla vuelve a la lista
+        # Modo ver tarea): 
         if self.modo == "detalle":
             event.stop()
             self.modo = "ver"
@@ -315,7 +266,7 @@ class ApuntadorApp(App):
             event.stop()
             self.marcar()
 
-    # ── Renderizado ────────────────────────────────────────────────
+    # ── Ren────────────────────────────────────────────────
 
     def _refrescar(self) -> None:
         self._refrescar_resumen()
@@ -463,7 +414,7 @@ class ApuntadorApp(App):
                          "  [f]filtro  [↑↓]navegar  [q]salir")
                 footer.update(f"[dim]{escape(hints)}[/]")
 
-    # ── Punto de entrada ───────────────────────────────────────────
+    # ── Punto de entra ───────────────────────────────────────────
 
 def main() -> None:
     ApuntadorApp().run()
