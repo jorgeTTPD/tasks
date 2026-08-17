@@ -6,13 +6,13 @@ import sys
 import tempfile
 from pathlib import Path
 
-# Redirigir el almacenamiento a un directorio temporal antes de importar
+
 _TMP = tempfile.mkdtemp(prefix="apuntador_test_")
 os.environ["APUNTADOR_DIR"] = _TMP
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from apuntador import Tarea, cargar, guardar, ApuntadorApp  # noqa: E402
-from textual.widgets import Static  # noqa: E402
+from apuntador import Tarea, cargar, guardar, ApuntadorApp
+from textual.widgets import Static
 
 
 def test_persistencia_ida_vuelta():
@@ -64,7 +64,7 @@ async def test_ui_completa():
     async with ApuntadorApp(tareas=[]).run_test() as pilot:
         app = pilot.app
 
-        # ── Backspace y escape en el formulario ──
+
         await pilot.press("a")
         await _teclear(pilot, "xy")
         await pilot.press("backspace")
@@ -73,7 +73,7 @@ async def test_ui_completa():
         assert app.modo == "ver"
         assert app.input == ""
 
-        # ── Añadir con nombre + descripción ──
+
         await pilot.press("a")
         assert app.modo == "anadir"
         assert app.campo == "nombre"
@@ -88,17 +88,17 @@ async def test_ui_completa():
         assert not app.tareas[0].done
         assert app.tareas[0].creada != ""
         assert app.modo == "ver"
-        # La pantalla se repintó (listado y resumen visibles)
+
         assert "comprar leche" in app.query_one("#list", Static).content
         assert "Tareas: 1" in app.query_one("#summary", Static).content
 
-        # ── Añadir sin descripción ──
+
         await _anadir(pilot, "terminar proyecto")
         assert len(app.tareas) == 2
         assert app.tareas[1].nombre == "terminar proyecto"
         assert app.tareas[1].descripcion == ""
 
-        # ── Marcar completada / pendiente ──
+
         await pilot.press("x")
         assert app.tareas[1].done
         assert app.tareas[1].completada != ""
@@ -107,7 +107,7 @@ async def test_ui_completa():
         assert not app.tareas[1].done
         assert app.tareas[1].completada == ""
 
-        # ── Ver tarea (detalle) ──
+
         app.selected = 1
         await pilot.press("v")
         assert app.modo == "detalle"
@@ -115,11 +115,11 @@ async def test_ui_completa():
         assert "Tarea" in det
         assert "comprar leche" in det
         assert "en la tienda" in det
-        # Cualquier tecla vuelve a la lista
+
         await pilot.press("w")
         assert app.modo == "ver"
 
-        # ── Filtros ──
+
         app.tareas[0].done = True
         app.tareas[0].completada = "2026-08-03 10:00:00"
         assert len(app.idx_visible()) == 2
@@ -134,26 +134,26 @@ async def test_ui_completa():
         await pilot.press("f")
         assert app.filtro == "todas"
 
-        # ── Borrar ──
+
         app.selected = 1
         await pilot.press("d")
         assert len(app.tareas) == 1
         assert app.tareas[0].nombre == "terminar proyecto"
 
-        # ── Limpiar completadas ──
+
         app.tareas.append(Tarea(nombre="Ya hecha", done=True))
         await pilot.press("c")
         assert len(app.tareas) == 1
         assert app.tareas[0].nombre == "terminar proyecto"
 
-        # ── Navegación ──
+
         await _anadir(pilot, "otra tarea")
         await pilot.press("k")
         assert app.selected == 1
         await pilot.press("j")
         assert app.selected == 2
 
-        # ── Salir ──
+
         await pilot.press("q")
 
     print("✅ UI completa (formulario 2 campos/ver/marcar/filtrar/borrar/limpiar/navegar/salir)")

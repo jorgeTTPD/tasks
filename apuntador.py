@@ -30,7 +30,7 @@ class Tarea:
     done: bool = False
 
 
-# ── Persistencia ───────────────────────────────────────────────────
+
 
 def cargar(archivo: Path = DATA_FILE) -> list[Tarea]:
     """Lee las tareas del JSON. Devuelve [] si no existe o está corrupto."""
@@ -78,22 +78,22 @@ class ApuntadorApp(App):
     
 
     def __init__(self, tareas: list[Tarea] | None = None) -> None:
-        # ansi_color=True: Textual deja de forzar fondos true-color por
-        # celda (con "transparent" pintaría NEGRO). Así el fondo por
-        # defecto del terminal (transparente en urxvt + picom) se ve.
+
+
+
         super().__init__(ansi_color=True)
         self._tareas_inicial: list[Tarea] | None = tareas
         self.tareas: list[Tarea] = []
-        self.selected: int = 1          # 1-based, como el original
-        self.filtro: str = "todas"      # todas | pendientes | hechas
-        self.modo: str = "ver"          # ver | anadir | detalle
-        self.campo: str = "nombre"      # campo activo del formulario
-        self.input: str = ""            # nombre (en modo añadir)
-        self.input_desc: str = ""       # descripción (en modo añadir)
+        self.selected: int = 1
+        self.filtro: str = "todas"
+        self.modo: str = "ver"
+        self.campo: str = "nombre"
+        self.input: str = ""
+        self.input_desc: str = ""
         self.flash: str = ""
         self._flash_timer = None
 
-    # ── motor ─────────────────────────────────────────────────────
+
 
     def idx_visible(self) -> list[int]:
         return [
@@ -174,7 +174,7 @@ class ApuntadorApp(App):
         self.set_flash(f"Filtro: {self.filtro}")
         self._refrescar()
 
-    # ── ui ─────────────────────────────────────────────────────────
+
 
     def compose(self) -> ComposeResult:
         yield Header(show_clock=False)
@@ -185,12 +185,12 @@ class ApuntadorApp(App):
             yield Static(id="footer")
 
     def on_mount(self) -> None:
-        # Si no reciben tareas explícitas, se cargan desde el disco
+
         self.tareas = self._tareas_inicial if self._tareas_inicial is not None else cargar()
         self._refrescar()
 
     def on_key(self, event) -> None:
-        # 
+
         if self.modo == "anadir":
             event.stop()
             if event.character is not None and event.is_printable:
@@ -219,7 +219,7 @@ class ApuntadorApp(App):
                 self._refrescar()
             return
 
-        # Modo ver tarea): 
+
         if self.modo == "detalle":
             event.stop()
             self.modo = "ver"
@@ -266,7 +266,7 @@ class ApuntadorApp(App):
             event.stop()
             self.marcar()
 
-    # ── Ren────────────────────────────────────────────────
+
 
     def _refrescar(self) -> None:
         self._refrescar_resumen()
@@ -299,7 +299,7 @@ class ApuntadorApp(App):
         return col_estado, col_fecha, con_fechas, max_nombre
 
     def _refrescar_columnas(self) -> None:
-        # En formulario/detalle no se muestran las cabeceras de columnas
+
         if self.modo != "ver":
             self.query_one("#cols", Static).update("")
             return
@@ -414,7 +414,7 @@ class ApuntadorApp(App):
                          "  [f]filtro  [↑↓]navegar  [q]salir")
                 footer.update(f"[dim]{escape(hints)}[/]")
 
-    # ── Punto de entra ───────────────────────────────────────────
+
 
 def main() -> None:
     ApuntadorApp().run()
