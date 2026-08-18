@@ -33,7 +33,7 @@ class Tarea:
 
 
 def cargar(archivo: Path = DATA_FILE) -> list[Tarea]:
-    """Lee las tareas del JSON. Devuelve [] si no existe o está corrupto."""
+    
     if not Path(archivo).is_file():
         return []
     try:
@@ -70,7 +70,7 @@ def guardar(tareas: list[Tarea], archivo: Path = DATA_FILE) -> None:
 
 
 class ApuntadorApp(App):
-    """TUI del Apuntador de Tareas."""
+    
 
     TITLE = "Apuntador de Tareas"
    
@@ -287,7 +287,7 @@ class ApuntadorApp(App):
         )
 
     def _layout(self) -> tuple[int, int, bool, int]:
-        """Columnas del listado: (col_estado, col_fecha, con_fechas, max_nombre)."""
+        
         w = self._ancho()
         col_estado, col_fecha = 6, 17
         x_nombre = col_estado
@@ -364,7 +364,7 @@ class ApuntadorApp(App):
         self.query_one("#list", Static).update("\n".join(lineas))
 
     def _refrescar_formulario(self) -> None:
-        """Formulario de añadir: nombre + descripción."""
+        
         nom = escape(self.input) + ("▌" if self.campo == "nombre" else "")
         des = escape(self.input_desc) + ("▌" if self.campo == "descripcion" else "")
         if self.campo == "nombre":
@@ -379,7 +379,7 @@ class ApuntadorApp(App):
         self.query_one("#list", Static).update("\n".join(lineas))
 
     def _refrescar_detalle(self) -> None:
-        """Ver tarea: muestra todos los datos de la seleccionada."""
+        
         ids = self.idx_visible()
         if not ids:
             self.query_one("#list", Static).update("[dim]  No hay tarea que ver[/dim]")

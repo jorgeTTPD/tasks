@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests del Apuntador de Tareas (portados de los tests de Julia)."""
+
 import asyncio
 import os
 import sys
@@ -51,7 +51,7 @@ async def _teclear(pilot, texto: str):
 
 
 async def _anadir(pilot, nombre, descripcion=""):
-    """Pulsa 'a', escribe nombre, Enter, descripción, Enter."""
+    
     await pilot.press("a")
     await _teclear(pilot, nombre)
     await pilot.press("enter")
